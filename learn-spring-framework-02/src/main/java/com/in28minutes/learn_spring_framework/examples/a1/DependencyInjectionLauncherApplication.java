@@ -1,6 +1,7 @@
 package com.in28minutes.learn_spring_framework.examples.a1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,17 +9,38 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-// Field Injection
-// No setter or constructor
-// Dependency is injected using reflection
-
 @Component
 class YourBusinessClass {
-    @Autowired // Using @Autowired, Spring automatically performs field injection (initialising the variable with an object automatically)
+
+    /**
+     * **Field Injection**
+     * No setter or constructor
+     * Dependency is injected using reflection
+     */
+//    @Autowired // Using @Autowired, Spring automatically performs field injection (initialising the variable with an object automatically)
+//    Dependency1 dependency1;
+//
+//    @Autowired
+//    Dependency2 dependency2;
+
+    /**
+     * **Setter-based Injection**
+     * Dependencies are set by calling setter methods on your beams
+     */
     Dependency1 dependency1;
+    Dependency2 dependency2;
 
     @Autowired
-    Dependency2 dependency2;
+    public void setDependency1(Dependency1 dependency1) {
+        System.out.println("Setter Injection - setDependency1");
+        this.dependency1 = dependency1;
+    }
+
+    @Autowired
+    public void setDependency2(Dependency2 dependency2) {
+        System.out.println("Setter Injection - setDependency2");
+        this.dependency2 = dependency2;
+    }
 
     public String toString() {
         return "Using " + dependency1 + " and " + dependency2;
