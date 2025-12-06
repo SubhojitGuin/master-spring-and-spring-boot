@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.in28minutes.learn_spring_framework.game")
+@ComponentScan("com.in28minutes.learn_spring_framework.game") //Spring searches for the components in this path
 public class GamingAppLauncherApplication {
     // Since the Component path is provided, Spring automatically creates the
     // component object and autowires it
