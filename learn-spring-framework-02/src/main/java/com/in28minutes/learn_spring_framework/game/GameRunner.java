@@ -8,7 +8,7 @@ public class GameRunner {
     private GamingConsole game;
 
     // To run a specific component use the @Qualifier to specify
-    // Can refer to a class without explicitly specifying Qualifier on the class by using
+    // Can refer to a class without explicitly specifying Qualifier on the class(Bean) by using
     // the class name with the first letter in small
     // class Name - SuperContraGame, qualifier - superContraGame
     public GameRunner(@Qualifier("superContraGame") GamingConsole game) {
