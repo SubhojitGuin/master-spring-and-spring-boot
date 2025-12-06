@@ -1,7 +1,6 @@
 package com.in28minutes.learn_spring_framework.examples.a1;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,18 +26,36 @@ class YourBusinessClass {
      * **Setter-based Injection**
      * Dependencies are set by calling setter methods on your beams
      */
+//    Dependency1 dependency1;
+//    Dependency2 dependency2;
+//
+//    @Autowired
+//    public void setDependency1(Dependency1 dependency1) {
+//        System.out.println("Setter Injection - setDependency1");
+//        this.dependency1 = dependency1;
+//    }
+//
+//    @Autowired
+//    public void setDependency2(Dependency2 dependency2) {
+//        System.out.println("Setter Injection - setDependency2");
+//        this.dependency2 = dependency2;
+//    }
+
+    /**
+     * Constructor-based Injection
+     * Dependencies are set by creating the Bean using its Constructor
+     * Here, @Autowired is not essential as constructor is autowired automatically by Spring (more preferred)
+     * <p> 
+     * Recommends Constructor-based Injection as dependencies are automatically set when an object is created
+     */
     Dependency1 dependency1;
     Dependency2 dependency2;
 
-    @Autowired
-    public void setDependency1(Dependency1 dependency1) {
-        System.out.println("Setter Injection - setDependency1");
+//    @Autowired
+    public YourBusinessClass(Dependency1 dependency1, Dependency2 dependency2) {
+        super();
+        System.out.println("Constructor Injection - YourBusinessClass");
         this.dependency1 = dependency1;
-    }
-
-    @Autowired
-    public void setDependency2(Dependency2 dependency2) {
-        System.out.println("Setter Injection - setDependency2");
         this.dependency2 = dependency2;
     }
 
