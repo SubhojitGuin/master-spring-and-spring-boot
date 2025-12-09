@@ -1,7 +1,17 @@
 package com.in28minutes.springboot.learn_jpa_and_hibernate.course;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+//@Entity(name="Course") // Used to map the entity to a table if the names are different
+@Entity // If the table names are same, then no need to mention the table name in Entity
 public class Course {
+    @Id
     private long id;
+
+//    @Column(name="name") // Required when the column name is different from the variable name
+//    @Column // May be used
     private String name;
     private String author;
 
