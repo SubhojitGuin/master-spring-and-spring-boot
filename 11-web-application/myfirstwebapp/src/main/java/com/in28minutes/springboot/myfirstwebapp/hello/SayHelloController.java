@@ -27,4 +27,11 @@ public class SayHelloController {
 
         return sb.toString();
     }
+
+    // Without the @ResponseBody, the string refers to the name of the jsp file
+    // For handling jsp, we need the dependency tomcat-embed-jasper
+    @RequestMapping("say-hello-jsp")
+    public String sayHelloJsp() {
+        return "sayHello";
+    }
 }
