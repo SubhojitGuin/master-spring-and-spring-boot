@@ -4,7 +4,8 @@
     </head>
     <body>
         <p>Welcome to the login page!</p>
-
+        <br/>
+        <pre>${errorMessage}</pre>
         <form method="post">
             Name: <input type="text" name="name">
             <br/>
