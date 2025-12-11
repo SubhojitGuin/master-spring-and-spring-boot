@@ -1,5 +1,7 @@
 package com.in28minutes.springboot.myfirstwebapp.todo;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class Todo {
@@ -14,6 +16,8 @@ public class Todo {
 
     private int id;
     private String username;
+
+    @Size(min = 10, message = "Enter at-least 10 characters") // Used to validate whether the description size is 10, otherwise display the message
     private String description;
     private LocalDate targetDate;
     private boolean done;
