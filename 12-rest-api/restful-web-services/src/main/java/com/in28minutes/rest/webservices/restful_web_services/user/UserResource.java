@@ -23,12 +23,17 @@ public class UserResource {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id) {
-        User user = service.getOne(id);
+        User user = service.findOne(id);
 
         if (user == null)
             throw new UserNotFoundException("id:"+id);
 
         return user;
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        service.deleteById(id);
     }
 
     @PostMapping("/users")
