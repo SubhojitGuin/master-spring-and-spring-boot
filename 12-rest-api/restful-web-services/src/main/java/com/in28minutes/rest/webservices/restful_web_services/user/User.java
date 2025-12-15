@@ -1,26 +1,40 @@
 package com.in28minutes.rest.webservices.restful_web_services.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
+@Entity(name = "user_details")
 public class User {
+
+    @Id
+    @GeneratedValue
     private Integer id;
 
     @Size(min = 2, message = "Name should contain atleast 2 characters")
-    @JsonProperty("user_name") // Used to change the name of the variable in the JSON response
+    @NotNull
+//    @JsonProperty("user_name") // Used to change the name of the variable in the JSON response
     private String name;
 
     @Past(message = "Birth date should be in the past")
-    @JsonProperty("birth_date") // Change the key name from birthDate to birth_date in the JSON response
+    @NotNull
+//    @JsonProperty("birth_date") // Change the key name from birthDate to birth_date in the JSON response
     private LocalDate birthDate;
 
     public User(Integer id, String name, LocalDate birthDate) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
+    }
+
+    public User() {
+
     }
 
     public Integer getId() {
