@@ -89,4 +89,24 @@ public class UserJpaResource {
 
         return ResponseEntity.created(location).build();
     }
+
+    @GetMapping("/jpa/users/{id}/posts/{post_id}")
+    public EntityModel<Post> retrieveUser(@PathVariable int id, @PathVariable int post_id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty())
+            throw new UserNotFoundException("id:"+id);
+
+        Optional<Post> post = postRepository.findById(post_id);
+
+        if (post.isEmpty())
+            throw new PostNotFoundException("id:"+id);
+
+        // HATEOAS is used to add extra details to the response
+        EntityModel<Post> entityModel = EntityModel.of(post.get());
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrievePostsForUser(user.get().getId()));
+        entityModel.add(link.withRel("all-posts"));
+
+        return entityModel;
+    }
 }
