@@ -20,20 +20,22 @@ public class LoggingAspect {
     // * : class name (* - all)
     // * : method names (* - all)
     // (..) : method arguments
-    @Before("execution(* com.in28minutes.learn_spring_aop.aopexample.*.*.*(..))") //WHEN
+    // Joint Point - When a Pointcut condition is true, the advice is executed. A specific execution instance of Advice is called a Join Point.
+    // Here, the reference points to the pointcut specified in the provided function name
+    @Before("com.in28minutes.learn_spring_aop.aopexample.aspects.CommonPointcutConfig.allPackageConfigUsingBean()") //WHEN
     public void logMethodCallBeforeExecution(JoinPoint joinPoint) {
         logger.info("Before Aspect - {} is called with arguments: {}", joinPoint, joinPoint.getArgs()); //WHAT
     }
 
     // Executed after the method is executed for both cases - returns error AND runs successfully
-    @After("execution(* com.in28minutes.learn_spring_aop.aopexample.*.*.*(..))")
+    @After("com.in28minutes.learn_spring_aop.aopexample.aspects.CommonPointcutConfig.businessPackageConfig()")
     public void logMethodCallAfterExecution(JoinPoint joinPoint) {
         logger.info("After Aspect - {} had executed", joinPoint);
     }
 
     // Executed after the method has thrown an exception
     @AfterThrowing(
-            pointcut = "execution(* com.in28minutes.learn_spring_aop.aopexample.*.*.*(..))",
+            pointcut = "com.in28minutes.learn_spring_aop.aopexample.aspects.CommonPointcutConfig.businessAndDataPackageConfig()",
             throwing = "exception"
     )
     public void logMethodCallAfterException(JoinPoint joinPoint, Exception exception) {
@@ -42,7 +44,7 @@ public class LoggingAspect {
 
     // Executed after the method has successfully executed
     @AfterReturning(
-            pointcut = "execution(* com.in28minutes.learn_spring_aop.aopexample.*.*.*(..))",
+            pointcut = "com.in28minutes.learn_spring_aop.aopexample.aspects.CommonPointcutConfig.dataPackageConfig()",
             returning = "resultValue"
     )
     public void logMethodCallAfterSuccessfulExecution(JoinPoint joinPoint, Object resultValue) {
