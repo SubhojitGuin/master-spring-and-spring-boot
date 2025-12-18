@@ -1,0 +1,15 @@
+FROM maven:3.9.11-amazoncorretto-25-alpine AS build
+WORKDIR /home/app
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk:21-ea-jdk-slim
+EXPOSE 5000
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+#This dockerfile solves the previous problem by building the image in a standard
+#maven container.
+
+#But, everytime a change is made (may be a small change), the whole build happens
+#again which takes a long time.
