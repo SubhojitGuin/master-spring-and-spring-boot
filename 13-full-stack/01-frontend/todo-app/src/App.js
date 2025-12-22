@@ -1,13 +1,11 @@
 import './App.css';
-import CounterButton from './components/counter/Counter';
+import Counter from './components/counter/Counter';
 
 function App() {
   return (
     <div className="App">
       {/* <PlayWithProperties property1="value1" property2="value2"></PlayWithProperties> */}
-      <CounterButton by={1}/>
-      <CounterButton by={2}/>
-      <CounterButton by={5}/>
+      <Counter></Counter>
     </div>
   );
 }
