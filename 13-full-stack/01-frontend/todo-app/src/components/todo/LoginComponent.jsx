@@ -1,4 +1,5 @@
-import { useState, useNavigate } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Here username and password is a controlled component as their content is handled by the React State
 export function LoginComponent() {
