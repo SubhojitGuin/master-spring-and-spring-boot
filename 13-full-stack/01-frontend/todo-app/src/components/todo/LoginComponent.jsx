@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./security/AuthContext";
 
 // Here username and password is a controlled component as their content is handled by the React State
 export function LoginComponent() {
@@ -9,6 +10,7 @@ export function LoginComponent() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const navigate = useNavigate();
+  const authContext = useAuth();
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -20,10 +22,14 @@ export function LoginComponent() {
 
   function handleSubmit() {
     if (username === "Subho" && password === "dummy") {
+      authContext.setAuthenticated(true);
+      console.log('Success')
       setShowSuccessMessage(true);
       setShowErrorMessage(false);
       navigate(`/welcome/${username}`);
     } else {
+      authContext.setAuthenticated(false);
+      console.log('Failed')
       setShowSuccessMessage(false);
       setShowErrorMessage(true);
     }
