@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import './TodoApp.css';
-import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
 
 export default function TodoApp() {
   return (
     <div className="TodoApp">
       <BrowserRouter>
+        <HeaderComponent/>
         <Routes>
           <Route path='/' element={<LoginComponent/>}/>
           <Route path='/login' element={<LoginComponent/>}/>
           <Route path='/welcome/:username' element={<WelcomeComponent/>}/>
           <Route path='/todos' element={<ListTodosComponent/>}/>
+          <Route path='/logout' element={<LogoutComponent/>}/>
           <Route path='*' element={<ErrorComponent/>}/>
         </Routes>
-      </BrowserRouter>      
+        <FooterComponent/>
+      </BrowserRouter>
     </div>
   );
 }
@@ -76,7 +79,7 @@ function WelcomeComponent() {
     <div className="WelcomeComponent">
       <h1>Welcome {username}</h1>
       <div>
-        Welcome Component
+        Manage Your todos - <Link to="/todos">Go here</Link>
       </div>
     </div>
   );
@@ -94,30 +97,86 @@ function ErrorComponent() {
 }
 
 function ListTodosComponent() {
+
+  const today = new Date();
+  const targetDate = new Date(today.getFullYear() + 12, today.getMonth(), today.getDay());
+
   const todos = [
-    {id: 1, description: "Learn AWS"},
-    {id: 2, description: "Learn Azure"},
-    {id: 3, description: "Learn DevOps"},
-    {id: 4, description: "Learn GCP"}
+    {id: 1, description: "Learn AWS", done: false, targetDate: targetDate},
+    {id: 2, description: "Learn Azure", done: false, targetDate: targetDate},
+    {id: 3, description: "Learn DevOps", done: false, targetDate: targetDate},
+    {id: 4, description: "Learn GCP", done: false, targetDate: targetDate}
   ]
   return (
-    <div className='ListTodosComponent'>
+    <div className='container'>
       <h1>Things you want to do!</h1>
       <div>
-        <table>
+        <table className='table'>
           <thead>
-            <th>ID</th>
-            <th>Description</th>
+            <tr>
+              <th>ID</th>
+              <th>Description</th>
+              <th>Is Done?</th>
+              <th>Target Date</th>
+            </tr>
           </thead>
           <tbody>
               {todos.map(todo => (
-                <tr>
+                <tr key={todo.id}>
                   <td>{todo.id}</td>
                   <td>{todo.description}</td>
+                  <td>{todo.done.toString()}</td>
+                  <td>{todo.targetDate.toDateString()}</td>
                 </tr>
               ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+function HeaderComponent() {
+  return (
+    <header className="border-bottom border-light border-5 mb-5 p-2">
+      <div className="container">
+        <div className="row">
+          <nav className="navbar navbar-expand-lg">
+            <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.in28minutes.com">in28minutes</a>
+            <div className="collapse navbar-collapse">
+              <ul className="navbar-nav">
+                <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/in28minutes">Home</Link></li>
+                <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+              </ul>
+            </div>
+            <ul className="navbar-nav">
+              <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
+              <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+  );
+}
+
+function FooterComponent() {
+  return (
+    <footer className="footer">
+      <div className='container'>
+        Footer
+      </div>
+    </footer>
+  );
+}
+
+function LogoutComponent() {
+  return (
+    <div className="LogoutComponent">
+      <h1>You are logged out!</h1>
+      <div>
+        Thank you for using our App. Come back soon!
       </div>
     </div>
   );
