@@ -11,15 +11,21 @@ export function WelcomeComponent() {
   function callHelloWorldRestApi() {
     console.log('called');
 
-    axios.get('http://localhost:8080/hello-world') // axios returns a Promise
-        .then((response) => successfulResponse(response)) // sets the next action during successful response
-        .catch((error) => errorResponse(error)) // handles the error if the call is unsuccessful
-        .finally(() => console.log('cleanup')); // provides the final steps that are executed at any circumstances
+    // axios.get('http://localhost:8080/hello-world') // axios returns a Promise
+    //     .then((response) => successfulResponse(response)) // sets the next action during successful response
+    //     .catch((error) => errorResponse(error)) // handles the error if the call is unsuccessful
+    //     .finally(() => console.log('cleanup')); // provides the final steps that are executed at any circumstances
+
+    axios.get('http://localhost:8080/hello-world-bean') 
+        .then((response) => successfulResponse(response))
+        .catch((error) => errorResponse(error))
+        .finally(() => console.log('cleanup'));
   }
 
   function successfulResponse(response) {
     console.log(response);
-    setMessage(response.data);
+    // setMessage(response.data); // For /hello-world
+    setMessage(response.data.message); // For /hello-world-bean
   }
 
   function errorResponse(error) {
