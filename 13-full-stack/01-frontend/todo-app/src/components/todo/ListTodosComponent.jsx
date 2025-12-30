@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { retrieveAllTodosForUsernameApi, deleteTodoApi } from "./api/TodoApiService";
+import { useAuth } from "./security/AuthContext";
 
 export function ListTodosComponent() {
 
@@ -7,17 +8,20 @@ export function ListTodosComponent() {
 
   const [message, setMessage] = useState(null);
 
+  const authContext = useAuth();
+
+  const username = authContext.username;
+
   useEffect(() => refreshTodos(), []);  // Executed as soon as the component is loaded
 
   function refreshTodos() {
-    retrieveAllTodosForUsernameApi("Subho")
+    retrieveAllTodosForUsernameApi(username)
     .then(response => setTodos(response.data))
     .catch(error => console.log(error));
   }
 
   function deleteTodo(id) {
-    console.log("clicked" + id);
-    deleteTodoApi("Subho", id)
+    deleteTodoApi(username, id)
     .then(() => {
       setMessage(`Todo ${id} has been deleted successfully`)
       refreshTodos()
