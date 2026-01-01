@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { executeBasicAuthenticationService } from "../api/HelloWorldApiService";
 
 //1: Create Context
 export const AuthContext = createContext();
@@ -10,17 +11,38 @@ export default function AuthProvider({ children }) {
 
   //3: Put some state in the context
   const [isAuthenticated, setAuthenticated] = useState(false);
-
   const [username, setUsername] = useState(null);
+  const [token, setToken] = useState(null);
 
-  function login(username, password) {
-    if (username === "Subho" && password === "dummy") {
-      setAuthenticated(true);
-      setUsername(username);
-      return true;
-    } else {
-      setAuthenticated(false);
-      setUsername(null);
+  // function login(username, password) {
+  //   if (username === "Subho" && password === "dummy") {
+  //     setAuthenticated(true);
+  //     setUsername(username);
+  //     return true;
+  //   } else {
+  //     setAuthenticated(false);
+  //     setUsername(null);
+  //     return false;
+  //   }
+  // }
+
+  async function login(username, password) { // async means that a Promise is returned as a reponse
+    const baToken = 'Basic ' + window.btoa(username + ":" + password);
+
+    try {
+      const response = await executeBasicAuthenticationService(baToken); // await pauses the execution until the Promise is resolved
+
+      if (response.status == 200) {
+        setAuthenticated(true);
+        setUsername(username);
+        setToken(baToken);
+        return true;
+      } else {
+        logout();
+        return false;
+      }
+    } catch(error) {
+      logout();
       return false;
     }
   }
@@ -28,10 +50,11 @@ export default function AuthProvider({ children }) {
   function logout() {
     setAuthenticated(false);
     setUsername(null);
+    setToken(null);
   }
 
   return (
-    <AuthContext.Provider value={ { isAuthenticated, username, login, logout } }>
+    <AuthContext.Provider value={ { isAuthenticated, username, token, login, logout } }>
       {children}
     </AuthContext.Provider>
   );
