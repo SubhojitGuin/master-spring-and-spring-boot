@@ -20,7 +20,7 @@ public class BasicAuthenticationSecurityConfiguration {
                         .anyRequest().authenticated() // Authenticate all requests
         )
         .httpBasic(Customizer.withDefaults()) // Show a basic popup for authentication for unauthenticated request
-        .sessionManagement( // Ensures stateless rest api
+        .sessionManagement( // This disables the session creation, ensuring purely stateless rest api
             session -> session.sessionCreationPolicy
                 (SessionCreationPolicy.STATELESS))
         .csrf(AbstractHttpConfigurer::disable) // Disable csrf for POST and PUT requests
