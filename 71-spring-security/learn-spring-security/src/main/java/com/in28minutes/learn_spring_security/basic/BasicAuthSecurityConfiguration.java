@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -21,7 +22,10 @@ import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-//@Configuration
+@Configuration
+//@EnableMethodSecurity // This enables method specific security (@PreAuthorize and @PostAuthorize)
+//@EnableMethodSecurity(jsr250Enabled = true) // This enables jsr250 annotations over the methods for security
+@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true) // securedEnabled = true enables @Secured annotation over the methods for security
 public class BasicAuthSecurityConfiguration {
 
     enum Role {
@@ -33,7 +37,10 @@ public class BasicAuthSecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.authorizeHttpRequests(
                 auth -> {
-                    auth.anyRequest().authenticated(); // Authorizes any incoming requests
+                    auth
+                    .requestMatchers("/users/**").hasRole("USER") // Configure access to the resource based on the ROLE globally
+                    .requestMatchers("/admin").hasRole("ADMIN")
+                    .anyRequest().authenticated(); // Authorizes any incoming requests
                 });
         http.sessionManagement(
                 session -> {
