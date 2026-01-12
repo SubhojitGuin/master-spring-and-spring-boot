@@ -41,15 +41,15 @@ public class FP01Exercises {
     }
 
     private static void printOddTheNumbersInListFunctional(List<Integer> numbers) {
-        numbers.stream()
-                .filter( number -> number % 2 == 1 )
-                .forEach(System.out::println);
+        numbers.stream() // Convert List to Stream
+                .filter( number -> number % 2 == 1 ) // Filter elements based on certain conditions
+                .forEach(System.out::println); // ForEach - used to consume an element
     }
 
     private static void printCubesOfOddTheNumbersInListFunctional(List<Integer> numbers) {
         numbers.stream()
                 .filter( number -> number % 2 == 1 )
-                .map( number -> number * number * number )
+                .map( number -> number * number * number ) // Map one value to another value
                 .forEach(System.out::println);
     }
 
